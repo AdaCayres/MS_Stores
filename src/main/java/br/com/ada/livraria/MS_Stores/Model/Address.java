@@ -1,14 +1,16 @@
 package br.com.ada.livraria.MS_Stores.Model;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 
-@Data
-public class Address {
- private String cep;
 
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Address {
+    private String cep;
     private String logradouro;
     private String complemento;
     private String bairro;

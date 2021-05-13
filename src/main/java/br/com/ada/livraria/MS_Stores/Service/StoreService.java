@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.ClientErrorException;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,9 +26,13 @@ public class StoreService {
     StoreRepository storeRepository;
 
     public Store addNew(Store store) {
-        Address address = addressRepository.getToAddress(store.getCEP());
-        if(address.isErro()) throw new WrongAddressException("");
-        return (Store) storeRepository.save(store);
+        try {
+            Address address = addressRepository.getToAddress(store.getCEP());
+            if (address.isErro()) throw new WrongAddressException("CEP errado");
+            return (Store) storeRepository.save(store);
+        }catch(ClientErrorException e){
+            throw new WrongAddressException("CEP errado");
+        }
     }
 
 
