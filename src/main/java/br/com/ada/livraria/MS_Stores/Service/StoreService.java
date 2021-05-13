@@ -48,11 +48,11 @@ public class StoreService {
     }
 
     public ResponseEntity<Object> updateById(Store store, long id){
-        Optional<Store> userOptional = storeRepository.findById(id);
-        if(!userOptional.isPresent()) return ResponseEntity.notFound().build();
+        Optional<Store> storeOptional = storeRepository.findById(id);
+        if(!storeOptional.isPresent()) return ResponseEntity.notFound().build();
         store.setId(id);
         storeRepository.save(store);
-        log.info("["+ System.nanoTime() +"] User modified id " + id + " in the DB.");
+        log.info("["+ System.nanoTime() +"] User modified the store with id " + id + " in the DB.");
         return ResponseEntity.noContent().build();
     }
 
@@ -61,7 +61,7 @@ public class StoreService {
         Optional<Store> store = storeRepository.findById(id);
         storeRepository.deleteById(id);
         if(store.isEmpty()) throw new StoreNotFoundException("");
-        log.info("["+ System.nanoTime() +"] User deleted id " + id + " in the DB.");
+        log.info("["+ System.nanoTime() +"] User deleted the store with id " + id + " in the DB.");
     }
 
 }
